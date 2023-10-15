@@ -1,28 +1,24 @@
+
 local FSPath = {}
 
 
 function FSPath:new(filepath)
-   local o = {pathstr = filepath}
+    local o = { pathstr = filepath }
     setmetatable(o, self)
     self.__index = self
     return o;
 end
 
-
 function FSPath:basename()
-    return vim.fs.basename(self.pathstr) 
+    return vim.fs.basename(self.pathstr)
 end
-
 
 function FSPath:extension()
     return string.match(self:basename(), "[.].*$")
 end
 
-
 function FSPath:joinpath(path)
     return FSPath:new(self.pathstr .. "/" .. path)
-
 end
 
 return FSPath
-
