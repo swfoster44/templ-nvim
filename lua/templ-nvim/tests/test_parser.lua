@@ -11,4 +11,12 @@ local function test_get_var_name()
     -- print("\n" .. var_name .. "\n")
 end
 
+local function test_vars()
+    
+end
+local header_text = [[
+@c_header_guard@
+]]
+
+
 test_get_var_name()
