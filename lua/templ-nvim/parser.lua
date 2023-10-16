@@ -6,7 +6,7 @@ local M = {}
 
 local function set_var_pattern(settings)
     return string.format(
-        "%s(.+)%s",
+        "%s([%%w_]+)%s",
         settings.globals.var_marker, settings.globals.var_marker)
 end
 
@@ -45,32 +45,26 @@ function M:parse(buffer)
     local templ_path = template_path(templ_name, self.settings)
     if not templ_path then return nil end
 
-    print("M:template_path : " .. templ_path .. "\n")
-
-
     local templ_handle = io.open(templ_path, 'r')
     if not templ_handle then return nil end
 
     local contents = templ_handle:read("*all")
-    print("M:parse contents: " .. contents .. "\n")
-    print("M:parse var_pattern: " .. self.settings.globals.var_pattern .. "\n")
-
 
     for v in string.gmatch(contents, self.settings.globals.var_pattern) do
-        print("M:parse v: " .. v .. "\n")
 
         local replace = self.settings.vars[v]
         if type(replace) == "function"
         then
             replace = replace(buffer_path, self.settings)
         end
-        print("M:parse replace: " .. replace .. "\n")
 
-        contents = string.gsub(
-            contents,
-            self.settings.globals.var_marker .. v .. self.settings.globals.var_marker,
-            replace
-        )
+        if replace then
+            contents = string.gsub(
+                contents,
+                self.settings.globals.var_marker .. v .. self.settings.globals.var_marker,
+                replace
+            )
+        end
     end
 
     templ_handle:close()
