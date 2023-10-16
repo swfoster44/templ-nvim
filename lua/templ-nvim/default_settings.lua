@@ -14,20 +14,21 @@ local M = {
 
     vars = {
         ['name'] = "",
-        ['filename']= "",
+        ['filename'] = "",
         ['date'] = "",
         ['c_header_guard'] = templates.c_header_guard,
         ['c_include_header'] = templates.c_include_header
     },
 
     templates = {
-        -- ['.c'] = "sources.templ",
-        -- ['.l.c'] = "lexer.templ",
-        -- ['main.c'] = "main.templ",
+        ['.c'] = "sources.templ",
+        ['.l.c'] = "lexer.templ",
+        ['main.c'] = "main.templ",
         ['.h'] = "header.templ"
     }
 
 }
+
 
 
 return M

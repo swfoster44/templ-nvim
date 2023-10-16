@@ -1,22 +1,14 @@
 local Parser = require("templ-nvim.parser")
-local settings = require("templ-nvim.default_settings")
+local buffer = "test.h"
 
+local function test_parse()
+    local settings = require("templ-nvim.default_settings")
+    settings.vars.name = "Dufus"
+    local p = Parser:new(settings)
+    print("settings in test: " .. p.settings.globals.var_pattern  .. "\n")
 
-local parser = Parser:new(settings)
--- print("\n" .. parser.var_pattern .. "\n")
-
-local function test_get_var_name()
-    local var_name = parser:get_var_name("@test_var@")
-    assert(var_name == "test_var")
-    -- print("\n" .. var_name .. "\n")
+    local contents = p:parse(buffer)
+    print("contents: " ..  contents .. "\n")
 end
 
-local function test_vars()
-    
-end
-local header_text = [[
-@c_header_guard@
-]]
-
-
-test_get_var_name()
+test_parse()

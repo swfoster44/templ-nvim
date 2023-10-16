@@ -10,56 +10,70 @@ local function set_var_pattern(settings)
         settings.globals.var_marker, settings.globals.var_marker)
 end
 
-
-function M:new(settings)
-    settings.var_pattern = set_var_pattern(settings)
-    local o = { settings = settings }
-    setmetatable(o, self)
-    self.__index = self
-    return o;
-end
-
-function M:var_name(var)
-    return string.match(var, self.settings.var_pattern)
-end
-
-function M:var_val(var_name)
-    return self.settings.vars[var_name]
-end
-
-function M:template_file_name(fspath)
-    local template_name = self.settings.templates[buffer_path:basename()]
+local function template_file_name(fspath, settings)
+    local bn = fspath:basename()
+    local template_name = settings.templates[bn]
     if not template_name then
-        template_name = self.settings.templates[buffer_path:extension()]
+        template_name = settings.templates[fspath:extension()]
     end
 
     return template_name
 end
 
-function M:template_path(name)
-    local path = FSPath:new(self.settings.globals.template_dir)
-    path = path:joinpath(name)
+local function template_path(name, settings)
+    local templ_dir_path = FSPath:new(settings.globals.template_dir)
+    local path = templ_dir_path:joinpath(name)
     return path
+end
+
+function M:new(settings)
+    settings.globals.var_pattern = set_var_pattern(settings)
+
+    local o = {}
+    setmetatable(o, self)
+    self.__index = self
+
+    self.settings = settings
+    return o;
 end
 
 function M:parse(buffer)
     local buffer_path = FSPath:new(buffer)
-    local template_name = self:template_file_name(buffer_path)
-    if not template_name then return nil end
+    local templ_name = template_file_name(buffer_path, self.settings)
+    if not templ_name then return nil end
 
-    local template_path = self:template_path(template_name)
-    local handle = io.open(template_path, "r")
-    if not handle then return nil end
+    local templ_path = template_path(templ_name, self.settings)
+    if not templ_path then return nil end
 
-    local contents = io.read(template_path, 'a')
+    print("M:template_path : " .. templ_path .. "\n")
+
+
+    local templ_handle = io.open(templ_path, 'r')
+    if not templ_handle then return nil end
+
+    local contents = templ_handle:read("*all")
+    print("M:parse contents: " .. contents .. "\n")
+    print("M:parse var_pattern: " .. self.settings.globals.var_pattern .. "\n")
+
 
     for v in string.gmatch(contents, self.settings.globals.var_pattern) do
-        local value = self:var_val(self:var_name(v))
-        -- need to account for header guard
-        contents = string.gsub(contents, v, value)
+        print("M:parse v: " .. v .. "\n")
+
+        local replace = self.settings.vars[v]
+        if type(replace) == "function"
+        then
+            replace = replace(buffer_path, self.settings)
+        end
+        print("M:parse replace: " .. replace .. "\n")
+
+        contents = string.gsub(
+            contents,
+            self.settings.globals.var_marker .. v .. self.settings.globals.var_marker,
+            replace
+        )
     end
 
-    handle:close()
+    templ_handle:close()
 
     return contents
 end

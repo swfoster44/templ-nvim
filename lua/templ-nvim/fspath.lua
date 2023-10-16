@@ -18,7 +18,7 @@ function FSPath:extension()
 end
 
 function FSPath:joinpath(path)
-    return FSPath:new(self.pathstr .. "/" .. path)
+    return self.pathstr .. "/" .. path
 end
 
 return FSPath
