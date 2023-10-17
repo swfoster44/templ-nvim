@@ -4,12 +4,6 @@ local FSPath = require('templ-nvim.fspath')
 local M = {}
 
 
-local function set_var_pattern(settings)
-    return string.format(
-        "%s([%%w_]+)%s",
-        settings.globals.var_marker, settings.globals.var_marker)
-end
-
 local function template_file_name(fspath, settings)
     local bn = fspath:basename()
     local template_name = settings.templates[bn]
@@ -26,23 +20,13 @@ local function template_path(name, settings)
     return path
 end
 
-function M:new(settings)
-    settings.globals.var_pattern = set_var_pattern(settings)
+function M.parse(buffer_file, settings)
 
-    local o = {}
-    setmetatable(o, self)
-    self.__index = self
-
-    self.settings = settings
-    return o;
-end
-
-function M:parse(buffer)
-    local buffer_path = FSPath:new(buffer)
-    local templ_name = template_file_name(buffer_path, self.settings)
+    local buffer_path = FSPath:new(buffer_file)
+    local templ_name = template_file_name(buffer_path, settings)
     if not templ_name then return nil end
 
-    local templ_path = template_path(templ_name, self.settings)
+    local templ_path = template_path(templ_name, settings)
     if not templ_path then return nil end
 
     local templ_handle = io.open(templ_path, 'r')
@@ -50,18 +34,18 @@ function M:parse(buffer)
 
     local contents = templ_handle:read("*all")
 
-    for v in string.gmatch(contents, self.settings.globals.var_pattern) do
+    for v in string.gmatch(contents, settings.globals.var_pattern) do
 
-        local replace = self.settings.vars[v]
+        local replace = settings.vars[v]
         if type(replace) == "function"
         then
-            replace = replace(buffer_path, self.settings)
+            replace = replace(buffer_path, settings)
         end
 
         if replace then
             contents = string.gsub(
                 contents,
-                self.settings.globals.var_marker .. v .. self.settings.globals.var_marker,
+                settings.globals.var_marker .. v .. settings.globals.var_marker,
                 replace
             )
         end

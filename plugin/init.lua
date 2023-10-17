@@ -1,5 +1,3 @@
-local FSPath = require("templ-nvim.fspath")
-local templates = require("templ-nvim.templates")
 
 local M = {}
 
@@ -11,17 +9,20 @@ local templ_nvim = vim.api.nvim_create_augroup(
 )
 
 
-vim.api.nvim_create_autocmd({ "BufNewFile", }, {
-    pattern = { "*.c", "*.h" },
-
-    group = templ_nvim,
-
-    callback = function(ev)
-        local fspath = FSPath:new(ev.file)
-        templates.c_header_guard(fspath:basename())
-    end
-
-})
+--vim.api.nvim_create_autocmd({ "BufNewFile", }, {
+--
+--    group = templ_nvim,
+--
+--    callback = function(ev)
+--        local config = require("templ-nvim.configuration")
+--        local Parser = require("templ-nvim.parser")
+--        print("\n", config.settings.templates['.h'], "\n")
+--        local parser = Parser:new(config.settings)
+--        local contents = parser.parse(ev.file)
+--        -- print(contents)
+--    end
+--
+--})
 
 
 return M
