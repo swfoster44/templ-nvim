@@ -10,8 +10,9 @@ use('swfoster44/templ-nvim')
 
 ## Configuration
 
-`lua
-    local settings = {
+#### defualts
+```
+    settings = {
 
         globals = {
             template_dir = FSPath:new(config_path .. "/templates").pathstr,
@@ -34,7 +35,7 @@ use('swfoster44/templ-nvim')
         }
 
     }
-`
+```
 
 ## Contributing
 
