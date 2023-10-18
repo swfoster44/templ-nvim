@@ -37,14 +37,14 @@ use('swfoster44/templ-nvim')
     })
 ```
 
-#### The  globals section contains the options that determine how templ will operate.
+>The  globals section contains the options that determine how templ will operate.
 
-* **template_dir:** The default is the root of the neovim config folder. templ
-has no preference on where it is located.
+>* **template_dir:** The default is the root of the neovim config folder. templ
+>has no preference on where it is located.
 
-* **var_marker:** This is the string that identifies variables in the .templ 
-file that will be replaced. For example, @name@ will be replaced by the value
-in vars['name'].
+>* **var_marker:** This is the string that identifies variables in the .templ 
+>file that will be replaced. For example, @name@ will be replaced by the value
+>in vars['name'].
 
 
 #### The vars section contains all the variables available to a template file. 
