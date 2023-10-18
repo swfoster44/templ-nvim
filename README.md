@@ -4,11 +4,11 @@ templ-nvim is a neovim plugin for creating file templates.
 
 ## Installation
 
-### pack
-use('swfoster44/templ-nvim')
+>pack
+>use('swfoster44/templ-nvim')
 
 
-## Configuration
+## Configuration/Usage
 
 ### Defaults
 ```
@@ -37,18 +37,19 @@ use('swfoster44/templ-nvim')
     })
 ```
 
->The  globals section contains the options that determine how templ will operate.
+#### Globals
+>The globals section contains the options that determine how templ will operate.
 >
 >* **template_dir:** The default is the root of the neovim config folder. templ
 >has no preference on where it is located.
 >
 >* **var_marker:** This is the string that identifies variables in the .templ 
 >file that will be replaced. Variable names should be bracketed by the marker.
->For example, @name@ will be replaced by the value >in vars['name'].
+>For example, @name@ will be replaced by the value in vars['name'].
 
 
 >The vars section contains all the variables available to a template file. 
->names can use alphanumeric characters and the _. Values can be a string or a 
+>Names can use alphanumeric characters and the _. Values can be a string or a 
 >function that returns a string.
 
 
