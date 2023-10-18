@@ -1,9 +1,6 @@
 local M = {}
 
 
-local FSPath = require("templ-nvim.fspath")
-
-
 M.c_header_guard = function(buffer_path)
     local guard_val = string.gsub(buffer_path:basename(), "(%w+)(%.)(%w+)", "_%1_%3_")
     guard_val = string.upper(guard_val)

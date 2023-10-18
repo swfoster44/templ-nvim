@@ -11,8 +11,8 @@ local templ_nvim = vim.api.nvim_create_augroup(
 
 
 local function new_file_callback(ev, settings)
-
     local contents = parser.parse(ev.file, settings)
+    if not contents then return nil end
     vim.api.nvim_buf_set_lines(0, 0, -1, false, contents)
 end
 

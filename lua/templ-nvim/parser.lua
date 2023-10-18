@@ -27,7 +27,6 @@ end
 
 
 function M.parse(buffer_file, settings)
-    print(settings.globals.var_pattern)
 
     local buffer_path = FSPath:new(buffer_file)
     local templ_name = template_file_name(buffer_path, settings)
@@ -42,7 +41,6 @@ function M.parse(buffer_file, settings)
     local contents = templ_handle:read("*all")
 
     for v in string.gmatch(contents, settings.globals.var_pattern) do
-        print("match")
         local replace = settings.vars[v]
         local var_type = type(replace)
 
