@@ -10,9 +10,9 @@ use('swfoster44/templ-nvim')
 
 ## Configuration
 
-#### defualts
+
 ```
-    settings = {
+    require('templ-nvim').setup( {
 
         globals = {
             template_dir = FSPath:new(config_path .. "/templates").pathstr,
@@ -34,8 +34,14 @@ use('swfoster44/templ-nvim')
             ['.h'] = "header.templ"
         }
 
-    }
+    })
 ```
+
+This example shows the defaults templ uses. 
+
+
+globals are the options that determine how templ will operate.
+* **var_marker:** this is the string that identifies variables in the .templ file.
 
 ## Contributing
 
