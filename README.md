@@ -10,12 +10,12 @@ use('swfoster44/templ-nvim')
 
 ## Configuration
 
-
+### Defaults
 ```
     require('templ-nvim').setup( {
 
         globals = {
-            template_dir = FSPath:new(config_path .. "/templates").pathstr,
+            template_dir = '~/.config/nvim/templates',
             var_marker = "@",
         },
 
@@ -37,11 +37,14 @@ use('swfoster44/templ-nvim')
     })
 ```
 
-This example shows the defaults templ uses. 
+globals section contains the options that determine how templ will operate.
 
+* **template_dir:** The default is the root of the neovim config folder. templ
+has no preference on where it is located.
 
-globals are the options that determine how templ will operate.
-* **var_marker:** this is the string that identifies variables in the .templ file.
+* **var_marker:** This is the string that identifies variables in the .templ 
+file that will be replaced. For example, @name@ will be replaced by the value
+in vars['name'].
 
 ## Contributing
 
