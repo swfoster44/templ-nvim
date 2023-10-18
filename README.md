@@ -37,7 +37,7 @@ templ-nvim is a neovim plugin for creating file templates.
     })
 ```
 
-#### Globals
+### Globals
 >The globals section contains the options that determine how templ will operate.
 >
 >* **template_dir:** The default is the root of the neovim config folder. templ
@@ -48,11 +48,13 @@ templ-nvim is a neovim plugin for creating file templates.
 >For example, @name@ will be replaced by the value in vars['name'].
 
 
+### Vars
 >The vars section contains all the variables available to a template file. 
 >Names can use alphanumeric characters and the _. Values can be a string or a 
 >function that returns a string.
 
 
+### Templates
 >The templates extension maps file patterns to files. Keys can contain single 
 >extensions, multiple extensions (.l.c) or whole file names. Values are 
 >template filenames located in the template_dir.
