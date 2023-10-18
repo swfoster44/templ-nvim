@@ -68,8 +68,9 @@ function M.setup(new_settings)
     update_templates(new_settings.templates)
 
 
-    if settings.globals['var_marker'] ~= "" then
-        settings.globals['var_pattern'] = settings.globals['var_marker'] .. "([%w_])" .. settings.globals['var_marker']
+    if settings.globals.var_marker then
+        local vm = settings.globals.var_marker
+        settings.globals.var_pattern = string.format("%s([%%w_]+)%s", vm, vm)
     end
 
     return settings

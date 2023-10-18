@@ -1,6 +1,5 @@
 local config = require("templ-nvim.configuration")
 local parser = require("templ-nvim.parser")
-local FSPath = require("templ-nvim.fspath")
 
 local M = {}
 
@@ -14,7 +13,7 @@ local templ_nvim = vim.api.nvim_create_augroup(
 local function new_file_callback(ev, settings)
 
     local contents = parser.parse(ev.file, settings)
-    vim.api.nvim_buf_set_lines(ev.buffer, 0, -1, false, contents)
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, contents)
 end
 
 

@@ -1,5 +1,5 @@
-local FSPath = require('templ-nvim.fspath')
-
+local FSPath = require("templ-nvim.fspath")
+local utils = require("templ-nvim.utils")
 
 local M = {}
 
@@ -20,7 +20,14 @@ local function template_path(name, settings)
     return path
 end
 
+
+local function template_var(var_name, settings)
+    return settings.globals.var_marker .. var_name .. settings.globals.var_marker
+end
+
+
 function M.parse(buffer_file, settings)
+    print(settings.globals.var_pattern)
 
     local buffer_path = FSPath:new(buffer_file)
     local templ_name = template_file_name(buffer_path, settings)
@@ -35,25 +42,25 @@ function M.parse(buffer_file, settings)
     local contents = templ_handle:read("*all")
 
     for v in string.gmatch(contents, settings.globals.var_pattern) do
-
+        print("match")
         local replace = settings.vars[v]
-        if type(replace) == "function"
-        then
-            replace = replace(buffer_path, settings)
-        end
+        local var_type = type(replace)
 
-        if replace then
+        if var_type == "function" then
+            local result = replace(buffer_path, settings)
+
             contents = string.gsub(
-                contents,
-                settings.globals.var_marker .. v .. settings.globals.var_marker,
-                replace
-            )
+                contents, template_var(v, settings), result)
+
+        elseif var_type == "string"  then
+            contents = string.gsub(
+                contents, template_var(v, settings), replace)
         end
     end
 
     templ_handle:close()
 
-    return contents
+    return utils.string_to_table(contents)
 end
 
 return M
