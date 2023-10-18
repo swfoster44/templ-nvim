@@ -48,15 +48,13 @@ use('swfoster44/templ-nvim')
 
 
 >The vars section contains all the variables available to a template file. 
->
->var names can use alphanumeric characters and the _. Values can be a string or a 
+>names can use alphanumeric characters and the _. Values can be a string or a 
 >function that returns a string.
 
 
->The templates extension maps file patterns to files.
->
->Keys can contain single extensions, multiple extensions (.l.c) or whole file 
->names. Values are template filenames located in the template_dir.
+>The templates extension maps file patterns to files. Keys can contain single 
+>extensions, multiple extensions (.l.c) or whole file names. Values are 
+>template filenames located in the template_dir.
 
 
 ## Contributing
